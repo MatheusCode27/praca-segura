@@ -1,43 +1,193 @@
-# Praça Segura — Recife
+# 🌳 Praça Segura
 
-Mini app acadêmico para participação cidadã e registro demonstrativo de problemas em espaços públicos do Recife.
+### Tecnologia a serviço dos espaços públicos.
 
-## Requisitos
-- Node.js 18 ou superior
-- npm
+**Praça Segura** é uma aplicação web desenvolvida como protótipo acadêmico em 2026, com a proposta de incentivar a participação cidadã na conservação dos espaços públicos do Recife.
 
-## Como executar
+A plataforma permite registrar problemas encontrados em praças, anexar fotografias, informar a localização e acompanhar o andamento das ocorrências.
+
+> Projeto acadêmico independente. Não representa um sistema oficial da Prefeitura do Recife.
+
+---
+
+## 📸 Demonstração da aplicação
+
+### 1. Tela de login e cadastro
+
+![Tela de login do Praça Segura](screenshots/login.png)
+
+### 2. Tela inicial
+
+![Tela inicial do Praça Segura](screenshots/inicio.png)
+
+### 3. Praças e ocorrências
+
+![Tela de praças e ocorrências](screenshots/ocorrencias.png)
+
+---
+
+## ✨ Funcionalidades
+
+### Área do cidadão
+- Cadastro e autenticação por e-mail e senha.
+- Consulta de praças cadastradas.
+- Registro de ocorrências.
+- Seleção de categorias de problemas.
+- Envio de fotografias.
+- Captura de coordenadas por GPS.
+- Geração e consulta de protocolos.
+- Acompanhamento do status das ocorrências.
+- Visualização dos próprios registros.
+
+### Área administrativa
+- Visualização das ocorrências cadastradas.
+- Consulta de informações e fotografias.
+- Atualização do status das solicitações.
+- Acompanhamento dos registros enviados pelos cidadãos.
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+| Tecnologia | Aplicação |
+|---|---|
+| React | Construção da interface |
+| Vite | Ambiente de desenvolvimento |
+| JavaScript | Lógica da aplicação |
+| CSS | Estilização e responsividade |
+| Supabase | Backend e serviços de dados |
+| PostgreSQL | Banco de dados |
+| Supabase Auth | Autenticação |
+| Supabase Storage | Armazenamento de fotografias |
+| Git e GitHub | Versionamento do código |
+
+---
+
+## 🏗️ Arquitetura e segurança
+
+A aplicação utiliza o Supabase como infraestrutura de backend, com banco de dados PostgreSQL, autenticação e armazenamento de arquivos.
+
+A segurança dos dados é apoiada por políticas de Row Level Security (RLS), que controlam o acesso às ocorrências conforme o usuário autenticado e seu perfil.
+
+As fotografias são armazenadas em bucket privado, com acesso controlado por políticas e URLs temporárias assinadas.
+
+---
+
+## ⚙️ Como executar o projeto
+
+### Pré-requisitos
+
+- Node.js 18 ou superior.
+- npm.
+- Git.
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/MatheusCode27/praca-segura.git
+```
+
+### 2. Entrar na pasta
+
+```bash
+cd praca-segura
+```
+
+### 3. Instalar as dependências
 
 ```bash
 npm install
+```
+
+### 4. Configurar as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+VITE_SUPABASE_URL=sua_url_supabase
+VITE_SUPABASE_ANON_KEY=sua_chave_publica_supabase
+```
+
+Utilize os dados do seu próprio projeto Supabase.
+
+**Importante:** nunca publique arquivos `.env`, chaves `service_role` ou credenciais privadas.
+
+### 5. Executar a aplicação
+
+```bash
 npm run dev
 ```
 
-Abra o endereço local exibido pelo Vite (normalmente http://localhost:5173).
+O Vite exibirá o endereço local para acessar a aplicação.
 
-## Como gerar a versão de apresentação
+### 6. Gerar a versão de produção
 
 ```bash
 npm run build
+```
+
+Para visualizar a versão compilada:
+
+```bash
 npm run preview
 ```
 
-## O que já funciona nesta versão
-- Navegação entre Início, Praças, Ocorrências e Sobre.
-- Lista demonstrativa de praças do Recife.
-- Formulário de registro de ocorrência.
-- Anexo opcional de imagem (limite de 1,5 MB nesta demonstração).
-- Geração de protocolo e consulta dos registros.
-- Filtros por praça e busca textual.
-- Painel administrativo demonstrativo para atualizar status.
-- Persistência local no navegador via `localStorage`.
-- Layout responsivo para celular e computador.
+---
 
-## Limitações importantes
-Esta é uma primeira versão de demonstração. Os registros ficam apenas no navegador em que foram criados. Não há login real, banco de dados remoto, envio à Prefeitura do Recife, geolocalização validada, nem canal 0800 integrado. O painel administrativo não tem autenticação e não deve ser usado em produção.
+## 🗂️ Estrutura do projeto
 
-## Próxima etapa técnica
-Integrar Supabase para autenticação, banco de dados, armazenamento de imagens e políticas de acesso. Antes de qualquer implantação pública, validar a lista de praças, categorias, fluxo de atendimento e canal institucional com a Prefeitura.
+```text
+praca-segura/
+│
+├── screenshots/
+│   ├── login.png
+│   ├── inicio.png
+│   └── ocorrencias.png
+│
+├── src/
+│   ├── main.jsx
+│   ├── style.css
+│   └── supabase.js
+│
+├── .gitignore
+├── index.html
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
-## Dados de demonstração
-A lista de praças e as ocorrências iniciais são exemplos para apresentação acadêmica. Devem ser conferidos antes de serem tratados como cadastro oficial ou informação atualizada.
+---
+
+## 🛣️ Evolução do projeto
+
+- [x] Desenvolvimento da interface web.
+- [x] Implementação da autenticação.
+- [x] Integração com Supabase.
+- [x] Cadastro e consulta de ocorrências.
+- [x] Perfis de cidadão e administrador.
+- [x] Armazenamento privado de fotografias.
+- [x] Controle de acesso com RLS.
+- [x] Layout responsivo.
+- [ ] Publicação da aplicação na web.
+- [ ] Ampliação e validação dos dados das praças.
+- [ ] Avaliação de possíveis integrações institucionais.
+
+---
+
+## 🎓 Natureza acadêmica
+
+O Praça Segura foi desenvolvido como projeto acadêmico em 2026, com finalidade educacional e demonstrativa.
+
+As informações e os registros apresentados no sistema não devem ser considerados comunicações oficiais ou solicitações protocoladas junto à Prefeitura do Recife.
+
+---
+
+## 👨‍💻 Desenvolvimento
+
+**Praça Segura — Recife**
+
+Projeto acadêmico de desenvolvimento web.
+
+**GitHub:** [MatheusCode27](https://github.com/MatheusCode27)
+
+**Repositório:** [github.com/MatheusCode27/praca-segura](https://github.com/MatheusCode27/praca-segura)

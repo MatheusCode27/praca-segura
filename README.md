@@ -169,7 +169,10 @@ praca-segura/
 - [x] Controle de acesso com RLS.
 - [x] Layout responsivo.
 - [x] Publicação da aplicação na web.
-- [ ] Ampliação e validação dos dados das praças.
+- [x] Ampliação e validação dos dados das praças.
+- [x] Testes de cadastro e persistência de ocorrências.
+- [x] Testes de atualização de status no painel administrativo.
+- [x] Validação de acesso em computadores e dispositivos móveis.
 - [ ] Avaliação de possíveis integrações institucionais.
 
 ---

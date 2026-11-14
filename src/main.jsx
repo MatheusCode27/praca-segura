@@ -34,11 +34,14 @@ function App() {
       setAuthLoading(false);
     });
 
-    const { data: { subscription } } =
-      supabase.auth.onAuthStateChange((_event, session) => {
-        setSession(session);
-        setAuthLoading(false);
-      });
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setResetPassword(true);
+      }
+
+      setSession(session);
+      setAuthLoading(false);
+    });
 
     return () => subscription.unsubscribe();
   }, []);
@@ -584,8 +587,11 @@ function App() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [authMode, setAuthMode] = useState('login');
+  const [resetMode, setResetMode] = useState(false);
+  const [resetPassword, setResetPassword] = useState(false);
   const [authMessage, setAuthMessage] = useState('');
 
   const handleAuth = async (e) => {
@@ -620,9 +626,117 @@ function App() {
       );
     }
   };
+  const handleForgotPassword = async () => {
+    setAuthMessage('');
+
+    if (!email.trim()) {
+      setAuthMessage('Digite seu e-mail para recuperar a senha.');
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+
+    if (error) {
+      setAuthMessage('Não foi possível enviar o e-mail: ' + error.message);
+    } else {
+      setAuthMessage('Enviamos um link de recuperação para seu e-mail. Verifique sua caixa de entrada.');
+    }
+  };
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    setAuthMessage('');
+
+    if (password.length < 6) {
+      setAuthMessage('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setAuthMessage('As senhas não coincidem.');
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({
+      password: password
+    });
+
+    if (error) {
+      setAuthMessage('Erro ao alterar a senha: ' + error.message);
+      return;
+    }
+
+    setAuthMessage('Senha alterada com sucesso! Faça login com sua nova senha.');
+    setResetPassword(false);
+    setPassword('');
+    setConfirmPassword('');
+
+    await supabase.auth.signOut();
+  };
 
   if (authLoading) {
     return <div>Carregando...</div>;
+  }
+  if (resetPassword) {
+    return (
+      <div className="auth-screen">
+        <div className="auth-content">
+          <div className="auth-brand">
+            <span className="auth-brand-icon">
+              <TreePine size={27} />
+            </span>
+            <div>
+              <strong>PRAÇA SEGURA</strong>
+              <span>RECIFE · CUIDADO COLETIVO</span>
+            </div>
+          </div>
+
+          <div className="auth-card">
+            <div className="auth-card-heading">
+              <span className="auth-tag">RECUPERAÇÃO DE ACESSO</span>
+              <h1>Crie sua <em>nova senha.</em></h1>
+              <p>Digite e confirme sua nova senha para recuperar o acesso.</p>
+            </div>
+
+            <form className="auth-form" onSubmit={handleUpdatePassword}>
+              <label>
+                Nova senha
+                <input
+                  type="password"
+                  placeholder="Digite a nova senha"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                />
+              </label>
+
+              <label>
+                Confirmar nova senha
+                <input
+                  type="password"
+                  placeholder="Digite novamente a senha"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  required
+                  minLength={6}
+                />
+              </label>
+
+              {authMessage && (
+                <div className="auth-message">
+                  {authMessage}
+                </div>
+              )}
+
+              <button className="auth-submit" type="submit">
+                Alterar minha senha
+                <ChevronRight size={19} />
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
   }
 
 
@@ -702,6 +816,15 @@ function App() {
                   minLength={6}
                 />
               </label>
+              {authMode === 'login' && (
+                <button
+                  type="button"
+                  className="text-btn"
+                  onClick={handleForgotPassword}
+                >
+                  Esqueci minha senha
+                </button>
+              )}
 
               {authMessage && (
                 <div className="auth-message">

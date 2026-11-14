@@ -168,7 +168,7 @@ praca-segura/
 - [x] Armazenamento privado de fotografias.
 - [x] Controle de acesso com RLS.
 - [x] Layout responsivo.
-- [ ] Publicação da aplicação na web.
+- [x] Publicação da aplicação na web.
 - [ ] Ampliação e validação dos dados das praças.
 - [ ] Avaliação de possíveis integrações institucionais.
 
